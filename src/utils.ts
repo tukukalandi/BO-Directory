@@ -34,6 +34,9 @@ export async function fetchSheetData(): Promise<SyncResult & { data?: BranchOffi
               deliveryMobile: String(row['Mobile Number of the Delivery Staff'] || '').trim(),
               mailCarrierName: String(row['Name of the Mail Carrier'] || '').trim(),
               mailCarrierMobile: String(row['Mobile Number of the Mail carrier'] || '').trim(),
+              digipin: String(row['Digipin'] || '').trim(),
+              longitude: String(row['Longitude'] || '').trim(),
+              latitude: String(row['Latitude'] || '').trim(),
             }));
           
           const now = Date.now();
@@ -89,6 +92,9 @@ export function exportToPDF(office: BranchOffice) {
   const body = [
     ['Office ID', office.officeId],
     ['BO Sol ID', office.solId],
+    ...(office.digipin ? [['Digipin', office.digipin]] : []),
+    ...(office.latitude ? [['Latitude', office.latitude]] : []),
+    ...(office.longitude ? [['Longitude', office.longitude]] : []),
     ['BPM Name', office.bpmName],
     ['BPM Mobile', office.bpmMobile],
     ['Delivery Staff', office.deliveryStaffName],
@@ -114,6 +120,9 @@ export function exportToExcel(office: BranchOffice) {
     ['Branch Post Office Name', office.name],
     ['Office ID', office.officeId],
     ['BO Sol ID', office.solId],
+    ...(office.digipin ? [['Digipin', office.digipin]] : []),
+    ...(office.latitude ? [['Latitude', office.latitude]] : []),
+    ...(office.longitude ? [['Longitude', office.longitude]] : []),
     ['BPM Name', office.bpmName],
     ['BPM Mobile', office.bpmMobile],
     ['Delivery Staff Name', office.deliveryStaffName],
@@ -134,7 +143,7 @@ export function copyToClipboard(office: BranchOffice): boolean {
 Name: ${office.name}
 Office ID: ${office.officeId}
 BO Sol ID: ${office.solId}
-
+${office.digipin ? `Digipin: ${office.digipin}\n` : ''}${office.latitude ? `Latitude: ${office.latitude}\n` : ''}${office.longitude ? `Longitude: ${office.longitude}\n` : ''}
 BPM Details:
 Name: ${office.bpmName || 'N/A'}
 Mobile: ${office.bpmMobile || 'N/A'}

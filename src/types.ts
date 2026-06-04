@@ -9,6 +9,9 @@ export interface BranchOffice {
   deliveryMobile: string;
   mailCarrierName: string;
   mailCarrierMobile: string;
+  digipin?: string;
+  longitude?: string;
+  latitude?: string;
 }
 
 export interface SyncResult {

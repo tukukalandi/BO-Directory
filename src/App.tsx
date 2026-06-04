@@ -160,6 +160,10 @@ export default function App() {
         )}
       </main>
 
+      <footer className="py-4 text-center text-xs font-medium text-slate-500 dark:text-slate-400 no-print border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950">
+        Prepared by Kalanndi Charan Sahoo, PA, Dhenkanal RS SO.
+      </footer>
+
       <style>{`
         @media print {
           body {

@@ -45,6 +45,36 @@ export function ResultCard({ office }: ResultCardProps) {
     window.print();
   };
 
+  const renderMap = () => {
+    if (!office.latitude || !office.longitude) return null;
+    const lat = parseFloat(office.latitude);
+    const lon = parseFloat(office.longitude);
+    if (isNaN(lat) || isNaN(lon)) return null;
+
+    const bbox = `${lon - 0.015},${lat - 0.015},${lon + 0.015},${lat + 0.015}`;
+    const src = `https://www.openstreetmap.org/export/embed.html?bbox=${encodeURIComponent(bbox)}&layer=mapnik&marker=${lat},${lon}`;
+
+    return (
+      <div className="border-b border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-800/50 p-4">
+        <div className="w-full h-48 md:h-64 rounded-lg bg-slate-200 dark:bg-slate-700 overflow-hidden border border-slate-300 dark:border-slate-600 pointer-events-auto">
+          <iframe 
+            width="100%" 
+            height="100%" 
+            frameBorder="0" 
+            scrolling="no" 
+            src={src}
+            title="Office Location Map"
+            className="w-full h-full dark:invert-[90%] dark:hue-rotate-180"
+          ></iframe>
+        </div>
+        <div className="mt-2 flex justify-between items-center text-[10px]">
+          <span className="text-slate-500 dark:text-slate-400 font-medium">Map data © OpenStreetMap contributors</span>
+          <a href={`https://www.openstreetmap.org/?mlat=${lat}&mlon=${lon}#map=16/${lat}/${lon}`} target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline font-bold uppercase">View Larger Map</a>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="flex-1 bg-white dark:bg-slate-900 rounded-xl shadow-xl border border-slate-200 dark:border-slate-800 overflow-hidden flex flex-col print-section grow">
       <div className="bg-slate-800 dark:bg-slate-950 text-white p-4 flex justify-between items-center flex-wrap gap-4">
@@ -137,6 +167,47 @@ export function ResultCard({ office }: ResultCardProps) {
           </div>
         </div>
       </div>
+
+      {(office.digipin || office.latitude || office.longitude) && (
+        <div className="bg-slate-50 dark:bg-slate-900/30 p-6 border-b border-slate-200 dark:border-slate-800 flex flex-wrap gap-8 items-center">
+          <div className="flex items-center gap-2 lg:border-r border-slate-200 dark:border-slate-700 lg:pr-8">
+            <div className="w-10 h-10 rounded-full bg-orange-100 dark:bg-orange-900/40 flex items-center justify-center text-orange-700 dark:text-orange-400 tracking-tighter shrink-0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg></div>
+            <h3 className="font-black text-slate-800 dark:text-slate-200 uppercase tracking-wide">Location<br/>Info</h3>
+          </div>
+          
+          <div className="flex flex-wrap gap-8 flex-1">
+            {office.digipin && (
+               <div>
+                  <p className="text-[10px] text-slate-500 dark:text-slate-400 uppercase font-bold tracking-widest mb-1">Digipin</p>
+                  <p className="font-mono font-bold text-lg text-slate-900 dark:text-slate-100">{office.digipin}</p>
+               </div>
+            )}
+            {office.latitude && (
+               <div>
+                  <p className="text-[10px] text-slate-500 dark:text-slate-400 uppercase font-bold tracking-widest mb-1">Latitude</p>
+                  <p className="font-mono font-bold text-lg text-slate-900 dark:text-slate-100">{office.latitude}</p>
+               </div>
+            )}
+            {office.longitude && (
+               <div>
+                  <p className="text-[10px] text-slate-500 dark:text-slate-400 uppercase font-bold tracking-widest mb-1">Longitude</p>
+                  <p className="font-mono font-bold text-lg text-slate-900 dark:text-slate-100">{office.longitude}</p>
+               </div>
+            )}
+          </div>
+          
+          {(office.latitude && office.longitude) && (
+            <div className="ml-auto w-full sm:w-auto">
+              <a href={`https://www.google.com/maps/search/?api=1&query=${office.latitude},${office.longitude}`} target="_blank" rel="noopener noreferrer" className="px-4 py-3 sm:py-2 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 rounded text-xs font-bold uppercase hover:bg-blue-200 dark:hover:bg-blue-900/50 transition-colors flex items-center justify-center gap-2 w-full">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"></polygon><line x1="9" y1="3" x2="9" y2="18"></line><line x1="15" y1="6" x2="15" y2="21"></line></svg>
+                VIEW ON MAPS
+              </a>
+            </div>
+          )}
+        </div>
+      )}
+
+      {renderMap()}
 
       {/* Action Footer for Card */}
       <div className="bg-slate-50 dark:bg-slate-950 px-6 py-4 flex flex-wrap gap-4 justify-between items-center border-t border-slate-200 dark:border-slate-800 no-print">

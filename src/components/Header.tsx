@@ -42,7 +42,7 @@ export function Header({ onSync, isSyncing, theme, toggleTheme }: HeaderProps) {
           </div>
           <div>
             <h1 className="text-xl font-bold tracking-tight uppercase leading-tight">BO Directory Search Tool</h1>
-            <p className="text-[10px] opacity-80 uppercase font-semibold">Department of Posts • Regional Administration</p>
+            <p className="text-[10px] opacity-80 uppercase font-semibold">Dhenkanal RS SO</p>
           </div>
         </div>
         <div className="flex items-center justify-between sm:justify-end gap-3 w-full sm:w-auto">
