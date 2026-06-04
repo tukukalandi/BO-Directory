@@ -45,36 +45,6 @@ export function ResultCard({ office }: ResultCardProps) {
     window.print();
   };
 
-  const renderMap = () => {
-    if (!office.latitude || !office.longitude) return null;
-    const lat = parseFloat(office.latitude);
-    const lon = parseFloat(office.longitude);
-    if (isNaN(lat) || isNaN(lon)) return null;
-
-    const bbox = `${lon - 0.015},${lat - 0.015},${lon + 0.015},${lat + 0.015}`;
-    const src = `https://www.openstreetmap.org/export/embed.html?bbox=${encodeURIComponent(bbox)}&layer=mapnik&marker=${lat},${lon}`;
-
-    return (
-      <div className="border-b border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-800/50 p-4">
-        <div className="w-full h-48 md:h-64 rounded-lg bg-slate-200 dark:bg-slate-700 overflow-hidden border border-slate-300 dark:border-slate-600 pointer-events-auto">
-          <iframe 
-            width="100%" 
-            height="100%" 
-            frameBorder="0" 
-            scrolling="no" 
-            src={src}
-            title="Office Location Map"
-            className="w-full h-full dark:invert-[90%] dark:hue-rotate-180"
-          ></iframe>
-        </div>
-        <div className="mt-2 flex justify-between items-center text-[10px]">
-          <span className="text-slate-500 dark:text-slate-400 font-medium">Map data © OpenStreetMap contributors</span>
-          <a href={`https://www.openstreetmap.org/?mlat=${lat}&mlon=${lon}#map=16/${lat}/${lon}`} target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline font-bold uppercase">View Larger Map</a>
-        </div>
-      </div>
-    );
-  };
-
   return (
     <div className="flex-1 bg-white dark:bg-slate-900 rounded-xl shadow-xl border border-slate-200 dark:border-slate-800 overflow-hidden flex flex-col print-section grow">
       <div className="bg-slate-800 dark:bg-slate-950 text-white p-4 flex justify-between items-center flex-wrap gap-4">
@@ -206,8 +176,6 @@ export function ResultCard({ office }: ResultCardProps) {
           )}
         </div>
       )}
-
-      {renderMap()}
 
       {/* Action Footer for Card */}
       <div className="bg-slate-50 dark:bg-slate-950 px-6 py-4 flex flex-wrap gap-4 justify-between items-center border-t border-slate-200 dark:border-slate-800 no-print">
